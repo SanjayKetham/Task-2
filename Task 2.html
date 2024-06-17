@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f9fc;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.input-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #004d40;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #00332e;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background: #f1f1f1;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+li.completed {
+    text-decoration: line-through;
+    color: #999;
+}
+
+li .task-details {
+    flex: 1;
+}
+
+li .task-actions {
+    display: flex;
+    align-items: center;
+}
+
+li button {
+    margin-left: 10px;
+    background: #e57373;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+li button:hover {
+    background: #d32f2f;
+}
+
+.priority-low {
+    background: #d4edda;
+}
+
+.priority-medium {
+    background: #fff3cd;
+}
+
+.priority-high {
+    background: #f8d7da;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <div class="input-container">
+            <input type="text" id="new-task" placeholder="Add a new task..." required>
+            <select id="priority">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <input type="date" id="due-date">
+            <input type="text" id="category" placeholder="Category">
+            <button id="add-task">Add</button>
+        </div>
+        <ul id="task-list"></ul>
+    </div>
+
+    <script>
+        document.getElementById('add-task').addEventListener('click', function() {
+    const taskText = document.getElementById('new-task').value;
+    const priority = document.getElementById('priority').value;
+    const dueDate = document.getElementById('due-date').value;
+    const category = document.getElementById('category').value;
+    
+    if (taskText === '') {
+        alert('Please enter a task');
+        return;
+    }
+
+    const li = document.createElement('li');
+    li.classList.add(`priority-${priority}`);
+    li.innerHTML = `
+        <div class="task-details">
+            <span><strong>Task:</strong> ${taskText}</span><br>
+            <span><strong>Due Date:</strong> ${dueDate}</span><br>
+            <span><strong>Category:</strong> ${category}</span>
+        </div>
+        <div class="task-actions">
+            <button class="complete-task">Complete</button>
+            <button class="delete-task">Delete</button>
+        </div>
+    `;
+
+    document.getElementById('task-list').appendChild(li);
+    document.getElementById('new-task').value = '';
+    document.getElementById('priority').value = 'low';
+    document.getElementById('due-date').value = '';
+    document.getElementById('category').value = '';
+
+    li.querySelector('.complete-task').addEventListener('click', function() {
+        li.classList.toggle('completed');
+    });
+
+    li.querySelector('.delete-task').addEventListener('click', function() {
+        li.remove();
+    });
+});
+
+    </script>
+</body>
+</html>
